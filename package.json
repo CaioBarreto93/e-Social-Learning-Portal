@@ -1,0 +1,11 @@
+{
+  "name": "esociallp",
+  "version": "1.0.0",
+  "description": "e-Social Learning Portal: Treinando Colaboradores para o Preenchimento e Envio de Dados",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Caio Barreto",
+  "license": "ISC"
+}
