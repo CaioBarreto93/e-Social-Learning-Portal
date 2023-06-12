@@ -4,11 +4,19 @@
   "description": "e-Social Learning Portal: Treinando Colaboradores para o Preenchimento e Envio de Dados",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js"
+    "test": "node index.js",
+    "start": "nodemon index.js"
   },
   "author": "Caio Barreto",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "bcrypt": "^5.1.0",
+    "dotenv": "^16.1.4",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.2.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
   }
 }
