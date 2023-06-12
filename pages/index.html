@@ -33,7 +33,7 @@
                     </div>
 
                     <div class="mt-8">
-                        <form>
+                        <form id="login-form">
                             <div>
                                 <label for="email" class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Endereço
                                     de Email</label>
@@ -44,7 +44,7 @@
                             <div class="mt-6">
                                 <div class="flex justify-between mb-2">
                                     <label for="password" class="text-sm text-gray-600 dark:text-gray-200">Senha</label>
-                                    <a href="#"
+                                    <a href="/esqueceusenha"
                                         class="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline">Esqueceu
                                         a senha?</a>
                                 </div>
@@ -52,6 +52,8 @@
                                 <input type="password" name="password" id="password" placeholder="Sua senha"
                                     class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
                             </div>
+
+                            <div id="error-container" class="text-red-500"></div>
 
                             <div class="mt-6">
                                 <button
@@ -63,7 +65,8 @@
                         </form>
 
                         <p class="mt-6 text-sm text-center text-gray-400">Não possue conta? <a href="#"
-                                class="text-blue-500 focus:outline-none focus:underline hover:underline" onclick="openModal(event)">Clique
+                                class="text-blue-500 focus:outline-none focus:underline hover:underline"
+                                onclick="openModal(event)">Clique
                                 aqui</a>.</p>
                     </div>
                 </div>
@@ -102,6 +105,7 @@
             </div>
         </div>
     </div>
+    
     <script>
         // Função para abrir o modal
         function openModal() {
@@ -143,6 +147,41 @@
                     // Cadastro de usuário bem-sucedido, fecha o modal e exibe uma mensagem de sucesso
                     closeModal();
                     alert(data.msg);
+                } else {
+                    // Exibe a mensagem de erro retornada pelo servidor
+                    document.getElementById('error-container').textContent = data.msg;
+                }
+            } catch (error) {
+                console.error(error);
+                document.getElementById('error-container').textContent = 'Aconteceu um erro no servidor, tente novamente mais tarde.';
+            }
+        });
+
+        // Função para lidar com o envio do formulário
+        document.getElementById('login-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const email = document.getElementsByName('email')[0].value;
+            const password = document.getElementsByName('password')[0].value;
+
+            try {
+                // Envia a requisição de login
+                const response = await fetch('/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email,
+                        password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Login bem-sucedido, redireciona para a página principal
+                    window.location.href = '/pagina-principal';
                 } else {
                     // Exibe a mensagem de erro retornada pelo servidor
                     document.getElementById('error-container').textContent = data.msg;
