@@ -9,7 +9,7 @@
 </head>
 
 <body class="bg-gray-100">
-    <div class="bg-white dark:bg-gray-900">
+    <div id='pagina1' class="bg-white dark:bg-gray-900">
         <div class="flex justify-center h-screen">
             <div class="hidden bg-cover lg:block lg:w-2/3"
                 style="background-image: url(https://storage.empregare.com/empresas/big/5eabba8f-4d6b-4453-84a7-18e4293ba22e.png)">
@@ -64,7 +64,7 @@
 
                         </form>
 
-                        <p class="mt-6 text-sm text-center text-gray-400">Não possue conta? <a href="#"
+                        <p class="mt-6 text-sm text-center text-gray-400">Não possue conta? <a href="/"
                                 class="text-blue-500 focus:outline-none focus:underline hover:underline"
                                 onclick="openModal(event)">Clique
                                 aqui</a>.</p>
@@ -105,7 +105,8 @@
             </div>
         </div>
     </div>
-    
+    <div id="pagina2"></div>
+
     <script>
         // Função para abrir o modal
         function openModal() {
@@ -180,15 +181,17 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    // Login bem-sucedido, redireciona para a página principal
+                    localStorage.setItem('token', data.token);
+                    
                     window.location.href = '/pagina-principal';
+
                 } else {
                     // Exibe a mensagem de erro retornada pelo servidor
                     document.getElementById('error-container').textContent = data.msg;
                 }
             } catch (error) {
                 console.error(error);
-                document.getElementById('error-container').textContent = 'Aconteceu um erro no servidor, tente novamente mais tarde.';
+                document.getElementById('error-container').textContent = 'Entrei nesse erro aqui';
             }
         });
     </script>

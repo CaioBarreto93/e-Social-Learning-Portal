@@ -110,13 +110,37 @@ app.post('/password-reset/reset', async (req, res) => {
 });
 
 // Rota para redirecionar o usuário autenticado para a página principal
-app.get('/pagina-principal', checkToken, (req, res) => {
-  res.sendFile('pages/principalPage.html', { root: __dirname });
+app.get('/pagina-principal', (req, res) => {
+  res.sendFile(path.join(__dirname, '/pages/principalPage.html'));
+});
+
+//Routa para validar token
+app.post('/valida/token', async (req,res) =>{
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(" ")[1]
+
+  if(!token){
+    return res.status(401).json({msg: 'Acesso negado!'})
+  }
+
+  try {
+    const secret = process.env.SECRET
+
+    jwt.verify(token, secret)
+
+    return res.status(200).json({msg:"Token valido"});
+    
+  } catch (error) {
+    return res.status(400).json({msg:"Token inválido ou expirado!"})
+  }
 });
 
 // Routa para testar o token
-app.get('/user/:id', checkToken, async (req, res)=>{
-  const id = req.params.id
+app.post('/user', checkToken, async (req, res)=>{
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(" ")[1]
+  const decode =jwt.decode(token) 
+  const id = decode.id;
 
   //Verificar se existe o usuário
   const user = await User.findById(id, '-password')
@@ -179,6 +203,28 @@ app.post('/auth/register', async (req,res)=>{
 
     return res.status(500).json({ msg: "Aconteceu um erro no servidor, tente novamente mais tarde."})
     
+  }
+});
+
+// Atualiza o User com o seu novo avatar em base64
+app.post('/user/update-avatar', checkToken, async (req,res)=>{
+  const { id, avatar } = req.body
+
+  try {
+    // Encontrar o usuário pelo ID
+    const user = await User.findById(id);
+
+    if(!user){
+      return res.status(404).json({msg:"Usuário não encontrado"});
+    }
+
+    user.avatar = avatar;
+
+    await user.save();
+    res.status(200).json({msg:"Avatar atualizando com sucesso"})
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: 'Ocorreu um erro no servidor' });
   }
 });
 
@@ -250,7 +296,7 @@ app.post("/auth/login", async (req,res)=>{
 
     console.log(error)
 
-    return res.status(500).json({ msg: "Aconteceu um erro no servidor, tente novamente mais tarde."})
+    return res.status(500).json({ msg: "Erro ao gerar o Token, tente novamente mais tarde."})
     
   }
 })

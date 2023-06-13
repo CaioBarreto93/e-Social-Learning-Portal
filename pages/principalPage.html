@@ -1,41 +1,80 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <title>e-Social Learning Portal - Principal</title>
+  <script>
+    document.addEventListener("DOMContentLoaded", async function () {
+      const token = localStorage.getItem('token');
+      if(!token){
+        window.location.href = '/'
+      }
+      await fetch('/valida/token', {
+        method: 'POST',
+        headers:{
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(response=>{        
+        if(response.status!=200){
+          window.location.href = '/'
+        }        
+      }).catch(error=>{
+        console.log(error)
+        window.location.href = '/'
+      });
+
+      const response = await fetch('/user',{
+        method: 'POST',
+        headers:{
+          'Authorization': `Bearer ${token}`
+        }
+      })
+
+      const data = await response.json();
+
+      if(response.ok){
+        localStorage.setItem('user', JSON.stringify(data.user))
+      }else{
+        alert(data.msg)
+        window.location.href='/'
+      }
+    });
+  </script>
 </head>
-<body>
+
+<body id="bodyprincipal">
   <div class="flex justify-center h-screen">
     <nav class="flex flex-col bg-blue-900 w-64 h-screen px-4 tex-gray-900 border border-blue-900">
       <div class="flex flex-wrap mt-8">
         <div class="w-1/2">
-          <img
-            src="https://randomuser.me/api/portraits/women/27.jpg"
-            class="mx-auto w-20 h-20 rounded-full"
-          />
+          <img id="UserAvatar" class="mx-auto w-20 h-20 rounded-full" />
         </div>
         <div class="w-1/2">
-          <span class="font-semibold text-white">Ava Harper</span>
-          <button class="bg-green-500 text-white px-4 py-2 rounded-md border border-blue-500 hover:bg-white hover:text-green-500">
+          <span id="UserName" class="font-semibold text-white"></span>
+          <button
+            class="bg-green-500 text-white px-4 py-2 rounded-md border border-blue-500 hover:bg-white hover:text-green-500">
             Logout
           </button>
         </div>
       </div>
       <div class="mt-10 mb-4">
         <ul class="ml-4">
-          <li class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover:bg-gray-300  hover:font-bold rounded rounded-lg">
+          <li
+            class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover:bg-gray-300  hover:font-bold rounded rounded-lg">
             <a href="./principalPage.html">
               <span class="ml-2">Inserir XML</span>
             </a>
           </li>
-          <li class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover:bg-gray-300  hover:font-bold rounded rounded-lg">
+          <li
+            class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover:bg-gray-300  hover:font-bold rounded rounded-lg">
             <a href="#">
-             
+
               <span class="ml-2">Simulação de entrada</span>
             </a>
-          </li>          
+          </li>
         </ul>
       </div>
     </nav>
@@ -45,21 +84,35 @@
         <br>
       </div>
 
-      <div class="flex items-center justify-center w-full">        
-            <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                    <svg class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click para selecionar o arquivo</span> ou arraste e solte aqui.</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">Somente XML formatado para o e-Social</p>
-                </div>
-                <input id="dropzone-file" type="file" class="hidden" />
-            </label>
-        </div> 
-    
-      <p class="mt-5">Favor só faça input de XML já preenchido e valido pelo e-social, ele servirá de base para o treinamento das proximos operadores.</a>.
+      <div class="flex items-center justify-center w-full">
+        <label for="dropzone-file"
+          class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+          <div class="flex flex-col items-center justify-center pt-5 pb-6">
+            <svg class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+            </svg>
+            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click para selecionar o
+                arquivo</span> ou arraste e solte aqui.</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Somente XML formatado para o e-Social</p>
+          </div>
+          <input id="dropzone-file" type="file" class="hidden" />
+        </label>
+      </div>
+
+      <p class="mt-5">Favor só faça input de XML já preenchido e valido pelo e-social, ele servirá de base para o
+        treinamento das proximos operadores.</a>.
       </p>
-        <script src="https://unpkg.com/flowbite@1.4.0/dist/flowbite.js"></script>
+      <script src="https://unpkg.com/flowbite@1.4.0/dist/flowbite.js"></script>
     </div>
   </div>
+  <script>   
+    const user = JSON.parse(localStorage.getItem('user'))
+    console.log(user)
+    document.getElementById("UserName").textContent = user.name;
+    document.getElementById("UserAvatar").src = user.avatar;
+  </script>
 </body>
+
 </html>
