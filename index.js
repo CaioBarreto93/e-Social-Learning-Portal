@@ -35,6 +35,10 @@ app.get('/esqueceusenha', (req, res) => {
   res.sendFile(path.join(__dirname, '/pages/esqueceuSenha.html'));
 });
 
+// Rota para a pagina de formulario
+app.get('/form-xml', (req, res) => {
+  res.sendFile(path.join(__dirname, '/pages/formXml.html'));
+});
 // Rota para solicitar recuperação de senha
 app.post('/password-reset', async (req, res) => {
   const { email } = req.body;

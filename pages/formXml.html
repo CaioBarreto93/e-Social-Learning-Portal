@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>e-Social Learning Portal - Formulario </title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const xml = localStorage.getItem('xmlContent')
+            const token = localStorage.getItem('token');
+
+            if (!xml) {
+                window.location.href = "/pagina-principal"
+            }
+            if (!token) {
+                window.location.href = '/'
+            }
+            await fetch('/valida/token', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(response => {
+                if (response.status != 200) {
+                    window.location.href = '/'
+                }
+            }).catch(error => {
+                console.log(error)
+                window.location.href = '/'
+            });
+
+            const response = await fetch('/user', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+
+            const data = await response.json();
+
+            if (response.ok) {
+                localStorage.setItem('user', JSON.stringify(data.user))
+            } else {
+                alert(data.msg)
+                window.location.href = '/'
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <nav class="flex flex-col bg-blue-900 w-64 h-screen px-4 tex-gray-900 border border-blue-900">
+        <div class="flex flex-wrap mt-8">
+            <div class="w-1/2">
+                <img id="UserAvatar" class="mx-auto w-20 h-20 rounded-full" />
+            </div>
+            <div class="w-1/2">
+                <span id="UserName" class="font-semibold text-white"></span>
+                <button
+                    id="logoutbtn"
+                    class="bg-green-500 text-white px-4 py-2 rounded-md border border-blue-500 hover:bg-white hover:text-green-500">
+                    Logout
+                </button>
+            </div>
+        </div>
+        <div class="mt-10 mb-4">
+            <ul class="ml-4">
+                <li
+                    class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover:bg-gray-300  hover:font-bold rounded rounded-lg">
+                    <a href="/pagina-principal">
+                        <span class="ml-2">Inserir XML</span>
+                    </a>
+                </li>
+                <li
+                    class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover:bg-gray-300  hover:font-bold rounded rounded-lg">
+                    <a href="/form-xml">
+
+                        <span class="ml-2">Simulação de entrada</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <script>
+        const user = JSON.parse(localStorage.getItem('user'))
+        document.getElementById("UserName").textContent = user.name;
+        document.getElementById("UserAvatar").src = user.avatar;
+        document.getElementById('logoutbtn').addEventListener('click', (event) => {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            localStorage.removeItem('xmlContent');
+
+            window.location.href = '/'
+        });
+    </script>
+</body>
+
+</html>

@@ -9,37 +9,37 @@
   <script>
     document.addEventListener("DOMContentLoaded", async function () {
       const token = localStorage.getItem('token');
-      if(!token){
+      if (!token) {
         window.location.href = '/'
       }
       await fetch('/valida/token', {
         method: 'POST',
-        headers:{
+        headers: {
           'Authorization': `Bearer ${token}`
         }
-      }).then(response=>{        
-        if(response.status!=200){
+      }).then(response => {
+        if (response.status != 200) {
           window.location.href = '/'
-        }        
-      }).catch(error=>{
+        }
+      }).catch(error => {
         console.log(error)
         window.location.href = '/'
       });
 
-      const response = await fetch('/user',{
+      const response = await fetch('/user', {
         method: 'POST',
-        headers:{
+        headers: {
           'Authorization': `Bearer ${token}`
         }
       })
 
       const data = await response.json();
 
-      if(response.ok){
+      if (response.ok) {
         localStorage.setItem('user', JSON.stringify(data.user))
-      }else{
+      } else {
         alert(data.msg)
-        window.location.href='/'
+        window.location.href = '/'
       }
     });
   </script>
@@ -55,6 +55,7 @@
         <div class="w-1/2">
           <span id="UserName" class="font-semibold text-white"></span>
           <button
+            id="logoutbtn"
             class="bg-green-500 text-white px-4 py-2 rounded-md border border-blue-500 hover:bg-white hover:text-green-500">
             Logout
           </button>
@@ -64,13 +65,13 @@
         <ul class="ml-4">
           <li
             class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover:bg-gray-300  hover:font-bold rounded rounded-lg">
-            <a href="./principalPage.html">
+            <a href="/pagina-principal">
               <span class="ml-2">Inserir XML</span>
             </a>
           </li>
           <li
             class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover:bg-gray-300  hover:font-bold rounded rounded-lg">
-            <a href="#">
+            <a href="/form-xml">
 
               <span class="ml-2">Simulação de entrada</span>
             </a>
@@ -97,7 +98,7 @@
                 arquivo</span> ou arraste e solte aqui.</p>
             <p class="text-xs text-gray-500 dark:text-gray-400">Somente XML formatado para o e-Social</p>
           </div>
-          <input id="dropzone-file" type="file" class="hidden" />
+          <input id="dropzone-file" type="file" class="hidden" accept="application/xml" />
         </label>
       </div>
 
@@ -107,11 +108,36 @@
       <script src="https://unpkg.com/flowbite@1.4.0/dist/flowbite.js"></script>
     </div>
   </div>
-  <script>   
+  <script>
     const user = JSON.parse(localStorage.getItem('user'))
-    console.log(user)
     document.getElementById("UserName").textContent = user.name;
     document.getElementById("UserAvatar").src = user.avatar;
+    document.getElementById('dropzone-file').addEventListener('change', (event) => {
+      const file = event.target.files[0];
+
+      if (file.type !== 'text/xml') {
+        alert('O arquivo selecionado não é um arquivo XML válido!');
+        event.target.value = ''; // Limpar o valor do input
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        const xmlContent = e.target.result;
+        localStorage.setItem('xmlContent', xmlContent);
+        window.location.href = '/form-xml';
+      };
+
+      reader.readAsText(file);
+    });
+    document.getElementById('logoutbtn').addEventListener('click', (event)=>{
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem('xmlContent');
+
+      window.location.href ='/'
+    });
   </script>
 </body>
 
