@@ -22,6 +22,7 @@ const dbPassword = process.env.DB_PASS
 const app = express();
 const port = 3000;
 app.use(express.json())
+app.use(cors())
 
 // Configurar o uso de arquivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
