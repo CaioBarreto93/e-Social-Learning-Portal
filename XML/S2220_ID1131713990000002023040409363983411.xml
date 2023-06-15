@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><eSocial xmlns="http://www.esocial.gov.br/schema/evt/evtMonit/v_S_01_01_00">
+    <evtMonit Id="ID1131713990000002023040409363983411">
+        <ideEvento>
+            <indRetif>1</indRetif>
+            <tpAmb>1</tpAmb>
+            <procEmi>1</procEmi>
+            <verProc>soc, 0</verProc>
+        </ideEvento>
+        <ideEmpregador>
+            <tpInsc>1</tpInsc>
+            <nrInsc>13171399</nrInsc>
+        </ideEmpregador>
+        <ideVinculo>
+            <cpfTrab>85799089570</cpfTrab>
+            <matricula>51</matricula>
+        </ideVinculo>
+        <exMedOcup>
+            <tpExameOcup>1</tpExameOcup>
+            <aso>
+                <dtAso>2023-04-03</dtAso>
+                <exame>
+                    <dtExm>2023-03-07</dtExm>
+                    <procRealizado>1415</procRealizado>
+                    <ordExame>1</ordExame>
+                </exame>
+                <exame>
+                    <dtExm>2023-03-07</dtExm>
+                    <procRealizado>0530</procRealizado>
+                    <ordExame>1</ordExame>
+                </exame>
+                <exame>
+                    <dtExm>2023-03-31</dtExm>
+                    <procRealizado>0658</procRealizado>
+                    <ordExame>2</ordExame>
+                </exame>
+                <exame>
+                    <dtExm>2023-03-07</dtExm>
+                    <procRealizado>0281</procRealizado>
+                    <ordExame>1</ordExame>
+                </exame>
+                <exame>
+                    <dtExm>2023-03-07</dtExm>
+                    <procRealizado>0295</procRealizado>
+                    <ordExame>2</ordExame>
+                </exame>
+                <medico>
+                    <nmMed>GILBERT JACKSON R D ALVES</nmMed>
+                    <nrCRM>21452</nrCRM>
+                    <ufCRM>BA</ufCRM>
+                </medico>
+            </aso>
+            <respMonit>
+                <cpfResp>00697614506</cpfResp>
+                <nmResp>GILBERT JACKSON R D ALVES</nmResp>
+                <nrCRM>21452</nrCRM>
+                <ufCRM>BA</ufCRM>
+            </respMonit>
+        </exMedOcup>
+    </evtMonit>
+<Signature xmlns="http://www.w3.org/2000/09/xmldsig#" Id="Sign-1"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><Reference Id="RefElement-1" URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><DigestValue>ZzyAKViohHBtV2CVALxpMrsZUKPa7X4dI8e8IT5vwOc=</DigestValue></Reference></SignedInfo><SignatureValue Id="SignatureValueID-1">Ro/o0fORfOSlVCEYJWZW0s0mTuIAMOPpgaypG/QOZyrYutHmTD7wI6uSVNIsHN/ZcWjDrS+bi4te
+DlojYnWO3MPKFVeW9Mi2AHBsNe4g/95YVK2lxvVs/UmEDFbGJ0Yb6Yp2Y0l/ndiyKqGrMcD81VGr
+sPcntbUo2gL371AZ1Zw1f2OVDp2QCAU9gRk1oADDADXm3gZPMIuJRdx/HZ9hIc1RToMuW5VI+Eil
+FnKpkKePg7xlHK3vbjO7QpxIbQNItI0WrigK0v/4tYjwJn5WSQqwJ3FL+RT4S/+/nEZb7irDjFMg
+U9otw7f54zHMQkuAiGiz0gp+1gvL0540S8KQ4A==</SignatureValue><KeyInfo><X509Data><X509Certificate>MIIHSzCCBTOgAwIBAgIIfg4jAgNk12AwDQYJKoZIhvcNAQELBQAwWTELMAkGA1UEBhMCQlIxEzAR
+BgNVBAoTCklDUC1CcmFzaWwxFTATBgNVBAsTDEFDIFNPTFVUSSB2NTEeMBwGA1UEAxMVQUMgU09M
+VVRJIE11bHRpcGxhIHY1MB4XDTIzMDIwMzE5MzIwMFoXDTI0MDIwMzE5MzIwMFowgeMxCzAJBgNV
+BAYTAkJSMRMwEQYDVQQKEwpJQ1AtQnJhc2lsMQswCQYDVQQIEwJCQTEOMAwGA1UEBxMFSXJlY2Ux
+HjAcBgNVBAsTFUFDIFNPTFVUSSBNdWx0aXBsYSB2NTEXMBUGA1UECxMOMTg3OTk4OTcwMDAxMjAx
+GTAXBgNVBAsTEFZpZGVvY29uZmVyZW5jaWExGjAYBgNVBAsTEUNlcnRpZmljYWRvIFBKIEExMTIw
+MAYDVQQDEylBUFRBIFNFUlZJQ09TIE1FRElDT1MgTFREQToxMjE2NDk2MzAwMDEwMDCCASIwDQYJ
+KoZIhvcNAQEBBQADggEPADCCAQoCggEBAIxj/UZcc5wc5wPF4PUtdG77AKLO1XyCselrQGw+jxd7
+9D3bgmor0Aeg2v5jPQxb5iOHQriuMgIH1I1qGtiQDPtsvgjri9zejuwbQzVWHBxU+QeTrQFnxJhn
+qxYaVaIu7TTDKLjBdiLq6KBKucBHnt/tHlI8LSudqXue66vaHONCpU1Hq9fnyZTWAiNUoDonxTC+
+DypoIwLCoWepq2wSOyEkVnYyLRv4mtkfEbiHe7IVa9UxRTCn38yF38Lvl2NMsVJLNqsnY1XxZVub
+Egp9LVv+lYGmNwI49Qr3MeCGC8EEN/qCBFQyTaxSZEdT7/xFneHukmwIJR/NXxt7iqSw//UCAwEA
+AaOCAoowggKGMAkGA1UdEwQCMAAwHwYDVR0jBBgwFoAUxVLtJYAJ35yCyJ9Hxt20XzHdubEwVAYI
+KwYBBQUHAQEESDBGMEQGCCsGAQUFBzAChjhodHRwOi8vY2NkLmFjc29sdXRpLmNvbS5ici9sY3Iv
+YWMtc29sdXRpLW11bHRpcGxhLXY1LnA3YjCBxQYDVR0RBIG9MIG6gRhnaWxiZXJ0QGdlc3Rhb21l
+ZC5jb20uYnKgMAYFYEwBAwKgJxMlR0lMQkVSVCBKQUNLU09OIFJJQkVJUk8gRE9VUkFETyBBTFZF
+U6AZBgVgTAEDA6AQEw4xMjE2NDk2MzAwMDEwMKA4BgVgTAEDBKAvEy0xODA5MTk4MjAwNjk3NjE0
+NTA2MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDCgFwYFYEwBAwegDhMMMDAwMDAwMDAwMDAwMF0G
+A1UdIARWMFQwUgYGYEwBAgEmMEgwRgYIKwYBBQUHAgEWOmh0dHA6Ly9jY2QuYWNzb2x1dGkuY29t
+LmJyL2RvY3MvZHBjLWFjLXNvbHV0aS1tdWx0aXBsYS5wZGYwHQYDVR0lBBYwFAYIKwYBBQUHAwIG
+CCsGAQUFBwMEMIGMBgNVHR8EgYQwgYEwPqA8oDqGOGh0dHA6Ly9jY2QuYWNzb2x1dGkuY29tLmJy
+L2xjci9hYy1zb2x1dGktbXVsdGlwbGEtdjUuY3JsMD+gPaA7hjlodHRwOi8vY2NkMi5hY3NvbHV0
+aS5jb20uYnIvbGNyL2FjLXNvbHV0aS1tdWx0aXBsYS12NS5jcmwwHQYDVR0OBBYEFJ60HGKY5190
+PjaPx+wJkq91TibsMA4GA1UdDwEB/wQEAwIF4DANBgkqhkiG9w0BAQsFAAOCAgEAJ6F9X8Htn9P4
+9m30TlFKCqWsqnHfMmspR0Xp1iVNafgGb+KCLQ/ndpQSK5ULSCZNabKKSofm0c/6i2V4kk/Wnqb7
+ixP8SncWLGdZ+6qwq+ZUWlMDdN3WGOEsVVeoVe0WR1eCtfBGwbnpbNg6QBjMS9A6F9m/NRypxduR
+O8iaAvhlE7XJNPT1PW+LR21DptAuVDgt7b3d7L2LVQt+vdWGKIsPLl7BxY6Ro0ISLNovmKW37Ud1
+kHodY+I/KGMy8eNM4uUWpS6aQu/6tJEerGSERom5y9larTfYZG7Y5ryHNmzZ7HkfIdZCKeP7XIfn
+7PZfkcsdSPz8RVcM7Lk+TnMQBc4WwcX16cg7LZZ8EuLWjogBWZyRuJpUhfvGvK4mHylc6oZqm5ik
+NxwQWqpG5cUR8l1eygLeO6blRfGh8iiJUKhyo4rg8l0a52MEOno4Z2gcVhLItuez8Avjtd0BBb3D
+tbKwhkvCfH+H1KuYs3H5Q7rvA7NxGkIVtUbolsOOzJ4e5oGipmsWwWeB21gNVsqn/9hpb2VwcGRN
+Qh/L8aG24I7LNVw6NgZ/bi10mnLCIuO/jdo/+0v/ZnHqdexH55HlPijrJvXpOxon0RzUF3OZUSZJ
+Kp+Nl4E+X/CMx3zK3lKnZhcqwHeZbvsVu5wtsedHN/uVV3VeZro3hBEbXa/lGBM=</X509Certificate></X509Data></KeyInfo></Signature></eSocial>

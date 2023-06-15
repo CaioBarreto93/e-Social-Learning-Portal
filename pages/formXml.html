@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>e-Social Learning Portal - Formulario </title>
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            const xml = localStorage.getItem('xmlContent')
+            const token = localStorage.getItem('token');
+
+            if (!xml) {
+                window.location.href = "/pagina-principal"
+            }
+            if (!token) {
+                window.location.href = '/'
+            }
+            await fetch('/valida/token', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(response => {
+                if (response.status != 200) {
+                    window.location.href = '/'
+                }
+            }).catch(error => {
+                console.log(error)
+                window.location.href = '/'
+            });
+
+            const response = await fetch('/user', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+
+            const data = await response.json();
+
+            if (response.ok) {
+                localStorage.setItem('user', JSON.stringify(data.user))
+            } else {
+                alert(data.msg)
+                window.location.href = '/'
+            }
+        });
+    </script>
+</head>
+
+<body class="flex justify-stretch h-screen">
+    <nav class="flex flex-col bg-blue-900 w-64 h-screen px-4 tex-gray-900 border border-blue-900">
+        <div class="flex flex-wrap mt-8">
+            <div class="w-1/2">
+                <img id="UserAvatar" class="mx-auto w-20 h-20 rounded-full" />
+            </div>
+            <div class="w-1/2">
+                <span id="UserName" class="font-semibold text-white"></span>
+                <button id="logoutbtn"
+                    class="bg-green-500 text-white px-4 py-2 rounded-md border border-blue-500 hover:bg-white hover:text-green-500">
+                    Logout
+                </button>
+            </div>
+        </div>
+        <div class="mt-10 mb-4">
+            <ul class="ml-4">
+                <li
+                    class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover:bg-gray-300  hover:font-bold rounded rounded-lg">
+                    <a href="/pagina-principal">
+                        <span class="ml-2">Inserir XML</span>
+                    </a>
+                </li>
+                <li
+                    class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover:bg-gray-300  hover:font-bold rounded rounded-lg">
+                    <a href="/form-xml">
+
+                        <span class="ml-2">Simulação de entrada</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <form class="bg-white p-8 border rounded shadow-md overflow-scroll w-full">
+        <div class="mb-4">
+            <label for="nome-trabalhador" class="block text-gray-700 font-bold mb-2">Nome do Trabalhador:</label>
+            <input type="text" id="nome-trabalhador"
+                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500" />
+        </div>
+
+        <div class="mb-4">
+            <label for="cpf" class="block text-gray-700 font-bold mb-2">CPF:</label>
+            <input type="text" id="cpf"
+                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500" />
+        </div>
+
+        <div class="mb-4">
+            <label for="matricula" class="block text-gray-700 font-bold mb-2">Matrícula:</label>
+            <input type="text" id="matricula"
+                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500" />
+        </div>
+
+        <div class="mb-4">
+            <label for="tipo-exame" class="block text-gray-700 font-bold mb-2">Tipo do Exame Ocupacional:</label>
+            <input type="number" id="tipo-exame"
+                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500" />
+        </div>
+
+        <div class="mb-4">
+            <label for="data-aso" class="block text-gray-700 font-bold mb-2">Data do ASO:</label>
+            <input type="date" id="data-aso"
+                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500" />
+        </div>
+
+        <div class="mb-4">
+            <label for="procedimento-1" class="block text-gray-700 font-bold mb-2">Procedimento Realizado 1:</label>
+            <input type="text" id="procedimento-1"
+                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500" />
+        </div>
+
+        <div class="mb-4">
+            <label for="data-procedimento-1" class="block text-gray-700 font-bold mb-2">Data do Procedimento 1:</label>
+            <input type="date" id="data-procedimento-1" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500" />
+          </div>
+        
+
+        <div id="procedimentos-container" class="mb-4">
+            <!-- campos adicionais de procedimento serão gerados aqui -->
+        </div>
+
+        <div class="flex justify-between mb-4">
+            <button type="button" id="add-procedimento"
+                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">+</button>
+            <button type="button" id="remove-procedimento"
+                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">-</button>
+        </div>
+
+        <div class="mb-4">
+            <label for="medico-responsavel" class="block text-gray-700 font-bold mb-2">Médico Responsável pelo
+                ASO:</label>
+            <input type="text" id="medico-responsavel"
+                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500" />
+        </div>
+
+        <div class="mb-4">
+            <label for="numero-crm" class="block text-gray-700 font-bold mb-2">Número do CRM:</label>
+            <input type="text" id="numero-crm"
+                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500" />
+        </div>
+
+        <div class="mb-4">
+            <label for="estado-crm" class="block text-gray-700 font-bold mb-2">Estado do CRM:</label>
+            <input type="text" id="estado-crm"
+                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500" />
+        </div>
+
+        <div class="mb-4">
+            <label for="nome-responsavel" class="block text-gray-700 font-bold mb-2">Nome do Responsável pelo
+                Estabelecimento:</label>
+            <input type="text" id="nome-responsavel"
+                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500" />
+        </div>
+
+        <div class="mb-4">
+            <label for="cpf-responsavel" class="block text-gray-700 font-bold mb-2">CPF do Responsável:</label>
+            <input type="text" id="cpf-responsavel"
+                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500" />
+        </div>
+
+        <div class="mb-4">
+            <label for="crm-responsavel" class="block text-gray-700 font-bold mb-2">CRM do Responsável:</label>
+            <input type="text" id="crm-responsavel"
+                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500" />
+        </div>
+
+        <div class="mb-4">
+            <label for="estado-crm-responsavel" class="block text-gray-700 font-bold mb-2">Estado do CRM do
+                Responsável:</label>
+            <input type="text" id="estado-crm-responsavel"
+                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500" />
+        </div>
+
+        <button type="submit"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Enviar</button>
+    </form>
+
+    <script>
+        const user = JSON.parse(localStorage.getItem('user'));
+        const procedimentosContainer = document.getElementById('procedimentos-container');
+        const addProcedimentoBtn = document.getElementById('add-procedimento');
+        const removeProcedimentoBtn = document.getElementById('remove-procedimento');
+
+        document.getElementById("UserName").textContent = user.name;
+        document.getElementById("UserAvatar").src = user.avatar;
+        document.getElementById('logoutbtn').addEventListener('click', (event) => {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            localStorage.removeItem('xmlContent');
+
+            window.location.href = '/'
+        });
+
+        let procedimentoCount = 1;
+
+        function addProcedimento() {
+            procedimentoCount++;
+
+            const procedimentoInput = document.createElement('input');
+            procedimentoInput.type = 'text';
+            procedimentoInput.id = `procedimento-${procedimentoCount}`;
+            procedimentoInput.className = 'w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500';
+            procedimentoInput.placeholder = `Procedimento Realizado ${procedimentoCount}`;
+            procedimentosContainer.appendChild(procedimentoInput);
+
+            const dataProcedimentoInput = document.createElement('input');
+            dataProcedimentoInput.type = 'date';
+            dataProcedimentoInput.id = `data-procedimento-${procedimentoCount}`;
+            dataProcedimentoInput.className = 'w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500';
+            dataProcedimentoInput.placeholder = `Data do Procedimento ${procedimentoCount}`;
+            procedimentosContainer.appendChild(dataProcedimentoInput);
+        }
+
+        function removeProcedimento() {
+            if (procedimentoCount > 1) {
+                const procedimentoInput = document.getElementById(`procedimento-${procedimentoCount}`);
+                const dataProcedimentoInput = document.getElementById(`data-procedimento-${procedimentoCount}`);
+
+                procedimentoInput.remove();
+                dataProcedimentoInput.remove();
+
+                procedimentoCount--;
+            }
+        }
+
+        addProcedimentoBtn.addEventListener('click', addProcedimento);
+        removeProcedimentoBtn.addEventListener('click', removeProcedimento);
+    </script>
+</body>
+
+</html>

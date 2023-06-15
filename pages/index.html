@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>e-Social Learning Portal</title>
+</head>
+
+<body class="bg-gray-100">
+    <div id='pagina1' class="bg-white dark:bg-gray-900">
+        <div class="flex justify-center h-screen">
+            <div class="hidden bg-cover lg:block lg:w-2/3"
+                style="background-image: url(https://storage.empregare.com/empresas/big/5eabba8f-4d6b-4453-84a7-18e4293ba22e.png)">
+                <div class="flex items-center h-full px-20 bg-gray-900 bg-opacity-40">
+                    <div>
+                        <h2 class="text-4xl font-bold text-white">e-Social Learning Portal</h2>
+
+                        <p class="max-w-xl mt-3 text-gray-300">Treinando Colaboradores para o Preenchimento e Envio de
+                            Dados pelo e-Social</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center w-full max-w-md px-6 mx-auto lg:w-2/6">
+                <div class="flex-1">
+                    <div class="text-center">
+                        <h2 class="text-4xl font-bold text-center text-gray-700 dark:text-white">e-Social Learning
+                            Portal</h2>
+
+                        <p class="mt-3 text-gray-500 dark:text-gray-300">Entre com a sua conta</p>
+                    </div>
+
+                    <div class="mt-8">
+                        <form id="login-form">
+                            <div>
+                                <label for="email" class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Endereço
+                                    de Email</label>
+                                <input type="email" name="email" id="email" placeholder="exemplo@exemplo.com.br"
+                                    class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+                            </div>
+
+                            <div class="mt-6">
+                                <div class="flex justify-between mb-2">
+                                    <label for="password" class="text-sm text-gray-600 dark:text-gray-200">Senha</label>
+                                    <a href="/esqueceusenha"
+                                        class="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline">Esqueceu
+                                        a senha?</a>
+                                </div>
+
+                                <input type="password" name="password" id="password" placeholder="Sua senha"
+                                    class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+                            </div>
+
+                            <div id="error-container" class="text-red-500"></div>
+
+                            <div class="mt-6">
+                                <button
+                                    class="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+                                    Login
+                                </button>
+                            </div>
+
+                        </form>
+
+                        <p class="mt-6 text-sm text-center text-gray-400">Não possue conta? <a href="/"
+                                class="text-blue-500 focus:outline-none focus:underline hover:underline"
+                                onclick="openModal(event)">Clique
+                                aqui</a>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div id="modal" class="modal hidden fixed inset-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+
+        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+            <div class="modal-content py-4 text-left px-6">
+                <!-- Título do modal -->
+                <div class="flex justify-between items-center pb-3">
+                    <p class="text-2xl font-bold">Cadastro de Usuário</p>
+                    <button class="modal-close cursor-pointer z-50" onclick="closeModal()">&#215;</button>
+                </div>
+
+                <!-- Formulário de cadastro -->
+                <form id="registration-form" class="flex flex-col space-y-4">
+                    <input type="text" name="mname" placeholder="Nome" class="p-2 border border-gray-300 rounded"
+                        required>
+                    <input type="email" name="memail" placeholder="E-mail" class="p-2 border border-gray-300 rounded"
+                        required>
+                    <input type="password" name="mpassword" placeholder="Senha"
+                        class="p-2 border border-gray-300 rounded" required>
+                    <input type="password" name="mconfirmPassword" placeholder="Confirmar Senha"
+                        class="p-2 border border-gray-300 rounded" required>
+
+                    <!-- Container para exibir mensagens de erro -->
+                    <div id="error-container" class="text-red-500"></div>
+
+                    <button type="submit"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Cadastrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="pagina2"></div>
+
+    <script>
+        // Função para abrir o modal
+        function openModal() {
+            document.getElementById('modal').classList.remove('hidden');
+        }
+
+        // Função para fechar o modal
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+        }
+
+        // Função para lidar com o envio do formulário
+        document.getElementById('registration-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const name = document.getElementsByName('mname')[0].value;
+            const email = document.getElementsByName('memail')[0].value;
+            const password = document.getElementsByName('mpassword')[0].value;
+            const confirmpassword = document.getElementsByName('mconfirmPassword')[0].value;
+
+            try {
+                // Envia a requisição de cadastro de usuário
+                const response = await fetch('/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        password,
+                        confirmpassword
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Cadastro de usuário bem-sucedido, fecha o modal e exibe uma mensagem de sucesso
+                    closeModal();
+                    alert(data.msg);
+                } else {
+                    // Exibe a mensagem de erro retornada pelo servidor
+                    document.getElementById('error-container').textContent = data.msg;
+                }
+            } catch (error) {
+                console.error(error);
+                document.getElementById('error-container').textContent = 'Aconteceu um erro no servidor, tente novamente mais tarde.';
+            }
+        });
+
+        // Função para lidar com o envio do formulário
+        document.getElementById('login-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const email = document.getElementsByName('email')[0].value;
+            const password = document.getElementsByName('password')[0].value;
+
+            try {
+                // Envia a requisição de login
+                const response = await fetch('/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email,
+                        password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    
+                    window.location.href = '/pagina-principal';
+
+                } else {
+                    // Exibe a mensagem de erro retornada pelo servidor
+                    document.getElementById('error-container').textContent = data.msg;
+                }
+            } catch (error) {
+                console.error(error);
+                document.getElementById('error-container').textContent = 'Entrei nesse erro aqui';
+            }
+        });
+    </script>
+</body>
+
+</html>

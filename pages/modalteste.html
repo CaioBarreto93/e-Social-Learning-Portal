@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Modal Esqueceu senha?</title>
+</head>
+<body>
+    <!-- Botão para abrir o modal -->
+<button id="openModal1" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="showModal1()">Esqueci minha senha</button>
+
+<!-- Modal -->
+<div id="modal1" class="hidden fixed z-10 inset-0 overflow-y-auto">
+  <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+
+    <!-- Conteúdo do modal -->
+    <div class="fixed inset-0 transition-opacity">
+      <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+    </div>
+
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>&#8203;
+
+    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+      <!-- Cabeçalho do modal -->
+      <div class="flex justify-between bg-blue-500 px-4 py-3 sm:px-6">
+        <h4 class="text-lg font-medium text-white">Recuperação de Senha</h4>
+        <button id="closeModal1btn" class="bg-blue-500 hover:bg-blue-700 text-white rounded" onclick="closeModal1()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+            <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+          </svg>
+          </button>
+      </div>
+
+      <!-- Corpo do modal -->
+      <div class="px-4 py-5 sm:p-6">
+        <div class="flex justify-center" id="init_div">
+            <button id="withoutToken" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1">Não tenho Token</button>
+            <button id="withToken" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1">Tenho Token</button>
+        </div>
+        <!-- Formulário para recuperação de senha com token -->
+        <div id="tokenForm" class="hidden">
+          <div class="mb-4">
+            <label for="rectoken" class="block text-gray-700 text-sm font-bold mb-2">Token:</label>
+            <input id="rectoken" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <div class="mb-4">
+            <label for="newPassword" class="block text-gray-700 text-sm font-bold mb-2">Nova Senha:</label>
+            <input id="newPassword" type="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <button id="resetPassword" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Redefinir Senha</button>
+        </div>
+
+        <!-- Formulário para solicitar token de troca de senha -->
+        <div id="recemailForm" class="hidden">
+          <div class="mb-4">
+            <label for="recemail" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+            <input id="recemail" type="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          </div>
+          <button id="sendToken" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Enviar Token</button>
+        </div>
+
+        <!-- Mensagem de retorno -->
+        <div id="message" class="mt-4 text-center"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Elementos do modal
+  const modal1 = document.getElementById('modal1');
+  const openModal1 = document.getElementById('openModal1');
+  const tokenForm = document.getElementById('tokenForm');
+  const recemailForm = document.getElementById('recemailForm');
+  const resetPasswordBtn = document.getElementById('resetPassword');
+  const sendTokenBtn = document.getElementById('sendToken');
+  const messageDiv = document.getElementById('message');
+  const withToken = document.getElementById('withToken');
+  const withoutToken = document.getElementById('withoutToken');
+  const init_div = document.getElementById('init_div');
+  
+  
+  // Função para exibir o modal
+  function showModal1() {
+    modal1.classList.remove('hidden');
+  }
+  
+  // Função para fechar o modal
+  function closeModal1() {
+    modal1.classList.add('hidden');
+    recemailForm.classList.add('hidden');
+    tokenForm.classList.add('hidden');
+    if(init_div.classList.contains('hidden')){
+        init_div.classList.remove('hidden')
+    }
+  }
+  
+  // Função para exibir o formulário com token
+  function withTokenForm() {
+    init_div.classList.add('hidden');
+    tokenForm.classList.remove('hidden');
+  }
+  
+  // Função para exibir o formulário de email
+  function withoutTokenForm() {
+    init_div.classList.add('hidden');
+    recemailForm.classList.remove('hidden');
+  }
+  
+  // Função para enviar o token e nova senha
+  function resetPassword() {
+    const token = document.getElementById('rectoken').value;
+    const newPassword = document.getElementById('newPassword').value;
+    
+    // Envie o token e a nova senha via requisição POST para '/password-reset/reset'
+    // Exemplo de código para envio da requisição usando fetch:
+    fetch('/password-reset/reset', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ token, password: newPassword })
+    })
+    .then(response => response.json())
+    .then(data => {
+      messageDiv.innerText = data.msg;
+    })
+    .catch(error => {
+      console.error(error);
+      messageDiv.innerText = 'Ocorreu um erro no servidor';
+    });
+  }
+  
+  // Função para enviar o email e solicitar o token
+  function sendToken() {
+    const recemail = document.getElementById('recemail').value;
+    
+    // Envie o email via requisição POST para '/password-reset'
+    // Exemplo de código para envio da requisição usando fetch:
+    fetch('/password-reset', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email: recemail })
+    })
+    .then(response => response.json())
+    .then(data => {
+      messageDiv.innerText = data.msg;
+    })
+    .catch(error => {
+      console.error(error);
+      messageDiv.innerText = 'Ocorreu um erro no servidor';
+    });
+  }
+  // Event Listeners para com ou sem Token
+  withToken.addEventListener('click', withTokenForm)
+  withoutToken.addEventListener('click', withoutTokenForm)
+  
+  // Event listeners para abrir e fechar o modal
+  openModal1.addEventListener('click', showModal1);
+  // modal1.addEventListener('click', closeModal1);
+  
+  // Event listeners para alternar entre os formulários
+  resetPasswordBtn.addEventListener('click', showTokenForm);
+  sendTokenBtn.addEventListener('click', showEmailForm);
+  
+  // Event listener para enviar o token e nova senha
+  resetPasswordBtn.addEventListener('click', resetPassword);
+  
+  // Event listener para enviar o email e solicitar o token
+  sendTokenBtn.addEventListener('click', sendToken);
+</script>
+    
+</body>
+</html>
