@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
+const cors = require ('cors')
 
 // Utils
 const { sendPasswordResetEmail } = require('./utils/email');
