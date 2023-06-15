@@ -4,7 +4,7 @@
   "description": "e-Social Learning Portal: Treinando Colaboradores para o Preenchimento e Envio de Dados",
   "main": "index.js",
   "engines": {
-    "node": "14.x"
+    "node": ">=16.0.0"
   },
   "scripts": {
     "test": "nodemon index.js",
