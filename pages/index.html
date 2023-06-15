@@ -97,7 +97,7 @@
                         class="p-2 border border-gray-300 rounded" required>
 
                     <!-- Container para exibir mensagens de erro -->
-                    <div id="error-container" class="text-red-500"></div>
+                    <div id="error-container-modal" class="text-red-500"></div>
 
                     <button type="submit"
                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Cadastrar</button>
@@ -105,11 +105,11 @@
             </div>
         </div>
     </div>
-    <div id="pagina2"></div>
 
     <script>
         // Função para abrir o modal
         function openModal() {
+            event.preventDefault();
             document.getElementById('modal').classList.remove('hidden');
         }
 
@@ -150,7 +150,7 @@
                     alert(data.msg);
                 } else {
                     // Exibe a mensagem de erro retornada pelo servidor
-                    document.getElementById('error-container').textContent = data.msg;
+                    document.getElementById('error-container-modal').textContent = data.msg;
                 }
             } catch (error) {
                 console.error(error);
