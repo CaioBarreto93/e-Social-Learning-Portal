@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>e-Social Learning Portal - Formulario </title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", async function () {
             const xml = localStorage.getItem('xmlContent')
@@ -181,7 +182,7 @@
                 class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500" />
         </div>
 
-        <button type="submit"
+        <button type="submit" id="send"
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Enviar</button>
     </form>
 
@@ -190,6 +191,112 @@
         const procedimentosContainer = document.getElementById('procedimentos-container');
         const addProcedimentoBtn = document.getElementById('add-procedimento');
         const removeProcedimentoBtn = document.getElementById('remove-procedimento');
+        const btnTrabalhador = document.querySelector("#send");
+        const url = localStorage.getItem('xmlContent');
+
+        btnTrabalhador.addEventListener("click", function(e) {
+                e.preventDefault();
+                const vet_procID = [];
+                const vet_data_procID = [];
+                var countvalidar = 0;
+                var campoincorreto = "";
+                const name = document.querySelector("#nome-trabalhador");
+                const nameValue = name.value;
+                const cpf = document.querySelector("#cpf");
+                const cpfValue = cpf.value;
+                const matricula = document.querySelector("#matricula");
+                const matriculaValue = matricula.value;
+                const tipo_exame = document.querySelector("#tipo-exame");
+                const tipo_exameValue = tipo_exame.value;
+                const data_aso = document.querySelector("#data-aso");
+                const data_asoValue = data_aso.value;
+                // For para armazenar os procedimentos e as datas {
+                for(var i = 0; i < procedimentoCount; i++) {
+                    const procID = document.querySelector(`#procedimento-${i+1}`);
+                    const procID_value = procID.value;
+                    const proc_dataID = document.querySelector(`#data-procedimento-${i+1}`);
+                    const proc_dataID_value = proc_dataID.value;
+                    vet_procID[i] = procID_value;
+                    vet_data_procID[i] = proc_dataID_value;                     
+                }
+                // }Fim do for.     
+                const medResp = document.querySelector("#medico-responsavel");
+                const medRespValue = medResp.value;
+                const numCRM = document.querySelector("#numero-crm");
+                const numCRMValue = numCRM.value;
+                const estadoCRM = document.querySelector("#estado-crm");
+                const estadoCRMValue = estadoCRM.value;
+                const nomeResp = document.querySelector("#nome-responsavel");
+                const nomeRespValue = nomeResp.value;
+                const cpfResp = document.querySelector("#cpf-responsavel");
+                const cpfRespValue = cpfResp.value;
+                const crmResp = document.querySelector("#crm-responsavel");
+                const crmRespValue = crmResp.value;
+                const estado_crmResp = document.querySelector("#estado-crm-responsavel");
+                const estado_crmRespValue = estado_crmResp.value;
+                //Validações abaixo:
+                if (cpfValue == $(url).find("cpfTrab").text()) {countvalidar += 1;}
+                else {campoincorreto = 'CPF\n';};
+               
+                if (matriculaValue == $(url).find("matricula").text()) {countvalidar += 1;}
+                else {campoincorreto += 'Matrícula\n';};
+                
+                if (tipo_exameValue == $(url).find("tpExameOcup").text()) {countvalidar += 1;}
+                else {campoincorreto += 'Tipo do Exame Ocupacional\n';};
+                
+                if (data_asoValue == $(url).find("dtAso").text()) {countvalidar += 1;}
+                else {campoincorreto += 'Data do ASO\n';};
+                // For para validar o procedimento e a data do procedimento {
+                for(var i = 0; i < procedimentoCount; i++){
+                    var TagExamProc = $(url).find("exame")[i];
+                    var procExam = $(TagExamProc).find("procRealizado").text();
+                    if (vet_procID[i] == procExam) {countvalidar += 1;}
+                    else {campoincorreto += `Procedimento Realizado ${i+1}\n`;};
+                };
+                for(var i = 0; i < procedimentoCount; i++){
+                    var TagExamData = $(url).find("exame")[i];
+                    var dataExam = $(TagExamData).find("dtExm").text();
+                    
+                    if (vet_data_procID[i] == dataExam) {countvalidar += 1;}
+                    else {campoincorreto += `Data do Procedimento ${i+1}\n`;};
+                };
+                // } Fim do for de validação
+                if (medRespValue == $(url).find("nmMed").text()) {countvalidar += 1;}
+                else {campoincorreto += 'Médico Responsável pelo ASO\n';};
+                
+                var TagMedico = $(url).find("medico")[0];
+                var tagMedico_CRM_Value = $(TagMedico).find("nrCRM").text();
+                var TagMedico_ufCRM_Value = $(TagMedico).find("ufCRM").text();
+                
+                if (numCRMValue == tagMedico_CRM_Value) {countvalidar += 1;}
+                else {campoincorreto += 'Número do CRM\n';};
+
+                if (estadoCRMValue == TagMedico_ufCRM_Value) {countvalidar += 1;}
+                else {campoincorreto += 'Estado do CRM\n';};
+
+                if (nomeRespValue == $(url).find("nmResp").text()) {countvalidar += 1;}
+                else {campoincorreto += 'Nome do Responsável pelo Estabelecimento\n';};
+
+                if (cpfRespValue == $(url).find("cpfResp").text()) {countvalidar += 1;}
+                else {campoincorreto += 'CPF do Responsável\n';};
+                
+                var tagRespMonit = $(url).find("respMonit")[0];
+                var tagCRM_Value = $(tagRespMonit).find("nrCRM").text();
+                var TagufCRM_Value = $(tagRespMonit).find("ufCRM").text();
+
+                if(crmRespValue == tagCRM_Value){countvalidar += 1;}
+                else {campoincorreto += 'CRM do Responsável\n';};
+
+                if(estado_crmRespValue == TagufCRM_Value){countvalidar += 1;}
+                else {campoincorreto += 'Estado do CRM do Responsável\n';};
+
+                if(countvalidar == 21){
+                    alert("Todos os campos foram preenchidos corretamente!");
+                }else{
+                    alert(`ERRO! Campo vazio ou preenchido incorretamente:\n${campoincorreto}
+                    Verifique todos os campos e tente novamente!`);
+                }
+            });
 
         document.getElementById("UserName").textContent = user.name;
         document.getElementById("UserAvatar").src = user.avatar;
