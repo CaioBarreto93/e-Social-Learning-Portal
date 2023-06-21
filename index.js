@@ -22,7 +22,7 @@ const dbPassword = process.env.DB_PASS
 // Config JSON response
 const app = express();
 const port = 3000;
-app.use(express.json())
+app.use(express.json({limit:'50mb'}))
 app.use(cors())
 
 // Configurar o uso de arquivos estáticos
@@ -213,7 +213,7 @@ app.post('/auth/register', async (req,res)=>{
 });
 
 // Atualiza o User com o seu novo avatar em base64
-app.post('/user/update-avatar', checkToken, async (req,res)=>{
+app.post('/user/update-avatar', async (req,res)=>{
   const { id, avatar } = req.body
 
   try {
